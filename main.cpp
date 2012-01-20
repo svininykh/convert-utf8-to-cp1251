@@ -11,7 +11,7 @@ int main(int argc, char ** argv)
 	//printf("start %s\n", argv[0]);
 
 	if (argc <= 1) {
-		perror("forgot file name for conversion");
+		printf("forgot file name for conversion");
 		exit(EXIT_FAILURE);
 	}
 
@@ -24,10 +24,10 @@ int main(int argc, char ** argv)
 	while(!feof(file)) {
 		char buff[LINE_MAX] = {0};
 		if (!fgets(buff, LINE_MAX, file)) {
-			printf("%s", "can't read line from file\n");
+			perror("can't read line from file");
 			exit(EXIT_FAILURE);
 		}
-		//printf("in: %s\n", buff);
+
 		char output[LINE_MAX] = {0};
 		if (!convert_utf8_to_windows1251(buff, output, LINE_MAX)) {
 			printf("can't convert line: %s\n", buff);
@@ -125,7 +125,7 @@ int convert_utf8_to_windows1251(const char* utf8, char* windows1251, size_t n)
 			first5bit <<= 6;
 			int sec6bit = suffix & 0x3F;
 			int unicode_char = first5bit + sec6bit;
-			//printf("%d, %X\n", unicode_char, unicode_char);
+
 			if ( unicode_char >= 0x410 && unicode_char <= 0x44F ) {
 				windows1251[j] = (char)(unicode_char - 0x350);
 			} else if (unicode_char >= 0x80 && unicode_char <= 0xFF) {
