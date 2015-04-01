@@ -1,0 +1,1 @@
+utf-8 windows-1251 c c++
